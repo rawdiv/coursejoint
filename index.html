@@ -917,10 +917,13 @@
         <nav class="container">
             <a href="#" class="logo">CourseJoint</a>
             <div class="nav-links">
-                <a href="law">Courses</a>
+                <a href="/law">Courses</a>
                 <a href="#about">About</a>
                 <a href="#testimonials">Testimonials</a>
                 <a href="#contact">Contact</a>
+            </div>
+            <div class="cta-buttons">
+                <a href="/law" class="btn btn-primary">Explore All Courses</a>
             </div>
         </nav>
     </header>
@@ -937,7 +940,7 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">🔥 Featured Courses</h2>
-                <a href="law" class="explore-button">
+                <a href="law.html" class="explore-button">
                     Explore All Courses <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
@@ -1112,7 +1115,7 @@
                         </div>
                     </div>
 
-                    <a href="law" class="cta-button">Explore Law Courses</a>
+                    <a href="law.html" class="cta-button">Explore Law Courses</a>
                 </div>
                 <div class="law-students-image">
                     <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Law students in a professional setting">
@@ -1263,5 +1266,78 @@
             </div>
         </div>
     </footer>
+
+    <!-- Razorpay Integration -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Razorpay credentials
+        const RAZORPAY_KEY_ID = 'rzp_live_RU5ZLop2WkyowR';
+        const RAZORPAY_KEY_SECRET = 'XpVDb7oQjxEFXs6hCFxMpu9U';
+
+        function initializePayment(courseTitle, amount) {
+            const options = {
+                key: RAZORPAY_KEY_ID,
+                amount: amount * 100, // amount in paise
+                currency: "INR",
+                name: "CourseJoint",
+                description: courseTitle,
+                image: "https://coursejoint.com/logo.png",
+                handler: function (response) {
+                    // Handle successful payment
+                    const paymentId = response.razorpay_payment_id;
+                    const orderId = response.razorpay_order_id;
+                    const signature = response.razorpay_signature;
+
+                    // Send payment details to your server
+                    sendPaymentDetails({
+                        paymentId,
+                        orderId,
+                        signature,
+                        courseTitle,
+                        amount
+                    });
+                },
+                prefill: {
+                    name: "",
+                    email: "",
+                    contact: ""
+                },
+                theme: {
+                    color: "#2563EB"
+                },
+                modal: {
+                    ondismiss: function() {
+                        console.log('Payment cancelled');
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        function sendPaymentDetails(paymentDetails) {
+            // Here you would typically send the payment details to your server
+            // For now, we'll just show a success message
+            alert('Payment successful! Course materials will be sent to your email within 24 hours.');
+            
+            // You can add additional logic here to:
+            // 1. Send payment details to your server
+            // 2. Update user's course access
+            // 3. Send confirmation email
+            // 4. Update database
+        }
+
+        // Add click handlers to all Buy Now buttons
+        document.querySelectorAll('.buy-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const courseCard = this.closest('.course-card');
+                const courseTitle = courseCard.querySelector('.course-title').textContent;
+                const amount = 1999; // ₹1,999 in paise
+                initializePayment(courseTitle, amount);
+            });
+        });
+    </script>
 </body>
 </html> 

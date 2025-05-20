@@ -874,6 +874,79 @@
         </div>
     </footer>
 
+    <!-- Razorpay Integration -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Razorpay credentials
+        const RAZORPAY_KEY_ID = 'rzp_live_RU5ZLop2WkyowR';
+        const RAZORPAY_KEY_SECRET = 'XpVDb7oQjxEFXs6hCFxMpu9U';
+
+        function initializePayment(courseTitle, amount) {
+            const options = {
+                key: RAZORPAY_KEY_ID,
+                amount: amount * 100, // amount in paise
+                currency: "INR",
+                name: "CourseJoint",
+                description: courseTitle,
+                image: "https://coursejoint.com/logo.png",
+                handler: function (response) {
+                    // Handle successful payment
+                    const paymentId = response.razorpay_payment_id;
+                    const orderId = response.razorpay_order_id;
+                    const signature = response.razorpay_signature;
+
+                    // Send payment details to your server
+                    sendPaymentDetails({
+                        paymentId,
+                        orderId,
+                        signature,
+                        courseTitle,
+                        amount
+                    });
+                },
+                prefill: {
+                    name: "",
+                    email: "",
+                    contact: ""
+                },
+                theme: {
+                    color: "#2563EB"
+                },
+                modal: {
+                    ondismiss: function() {
+                        console.log('Payment cancelled');
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        function sendPaymentDetails(paymentDetails) {
+            // Here you would typically send the payment details to your server
+            // For now, we'll just show a success message
+            alert('Payment successful! Course materials will be sent to your email within 24 hours.');
+            
+            // You can add additional logic here to:
+            // 1. Send payment details to your server
+            // 2. Update user's course access
+            // 3. Send confirmation email
+            // 4. Update database
+        }
+
+        // Add click handlers to all Buy Now buttons
+        document.querySelectorAll('.buy-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const courseCard = this.closest('.course-card');
+                const courseTitle = courseCard.querySelector('.course-title').textContent;
+                const amount = 1999; // ₹1,999 in paise
+                initializePayment(courseTitle, amount);
+            });
+        });
+    </script>
+
     <script>
         // Mobile Navigation
         const menuToggle = document.getElementById('menuToggle');
