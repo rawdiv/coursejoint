@@ -64,8 +64,8 @@ app.use(cors());
 // Compress all responses
 app.use(compression());
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from the root directory
+app.use(express.static(__dirname));
 
 // Routes
 app.get('/', (req, res) => {
@@ -76,8 +76,25 @@ app.get('/law', (req, res) => {
     res.sendFile(path.join(__dirname, 'law.html'));
 });
 
+app.get('/law.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'law.html'));
+});
+
 app.get('/courses', (req, res) => {
     res.redirect('/law');
+});
+
+// Handle section links in index.html
+app.get('/#about', (req, res) => {
+    res.redirect('/#about');
+});
+
+app.get('/#testimonials', (req, res) => {
+    res.redirect('/#testimonials');
+});
+
+app.get('/#contact', (req, res) => {
+    res.redirect('/#contact');
 });
 
 // Health check endpoint
