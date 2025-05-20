@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CourseJoint – Learn, Upskill, Lead</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --secondary-color: #3B82F6;
+            --accent-color: #60A5FA;
+            --text-color: #1F2937;
+            --light-gray: #F3F4F6;
+            --border-color: #E5E7EB;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #FAFAFA;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--card-shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: var(--card-shadow);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--light-gray);
+            color: var(--primary-color);
+        }
+
+        .dropdown-content a::after {
+            display: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 6rem;
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232563EB' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .cta-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        /* Featured Courses Section */
+        .featured-courses {
+            padding: 6rem 0;
+            background: white;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            text-align: left;
+            margin-bottom: 0;
+        }
+
+        .explore-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .explore-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .explore-button i {
+            font-size: 1.25rem;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            padding: 0 1rem;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .sale-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #EF4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .course-content {
+            padding: 2rem;
+        }
+
+        .course-category {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #EEF2FF;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .course-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .course-content p {
+            color: #4B5563;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-features {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #059669;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .feature-badge i {
+            color: #059669;
+        }
+
+        .pricing {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .original-price {
+            color: #6B7280;
+            text-decoration: line-through;
+            font-size: 1.125rem;
+        }
+
+        .sale-price {
+            color: #EF4444;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .buy-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: var(--light-gray);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-size: 4rem;
+            color: var(--primary-color);
+            opacity: 0.1;
+            font-family: serif;
+        }
+
+        .testimonial-card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            color: #374151;
+        }
+
+        .testimonial-card strong {
+            color: var(--text-color);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Partners Section */
+        .partners {
+            padding: 6rem 0;
+            text-align: center;
+            background: white;
+        }
+
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .partner-logos i {
+            color: #6B7280;
+            transition: all 0.3s ease;
+        }
+
+        .partner-logos i:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        footer {
+            background: #1F2937;
+            color: white;
+            padding: 6rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            color: #F9FAFB;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: #D1D5DB;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .newsletter {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .newsletter input {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 8px;
+            background: #374151;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .newsletter input::placeholder {
+            color: #9CA3AF;
+        }
+
+        .newsletter .cta-button {
+            width: 100%;
+            text-align: center;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #9CA3AF;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .testimonial-card {
+                padding: 2rem;
+            }
+        }
+
+        /* Internship Section */
+        .internship-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .internship-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232563EB' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .internship-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .internship-text {
+            text-align: left;
+        }
+
+        .internship-text h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .internship-text p {
+            font-size: 1.125rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .internship-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .internship-feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .internship-feature i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            background: white;
+            padding: 0.75rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .internship-feature span {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .internship-image {
+            position: relative;
+        }
+
+        .internship-image img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: var(--hover-shadow);
+        }
+
+        .guarantee-badge {
+            position: absolute;
+            top: -1rem;
+            right: -1rem;
+            background: #059669;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: var(--card-shadow);
+            transform: rotate(5deg);
+        }
+
+        @media (max-width: 768px) {
+            .internship-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .internship-features {
+                grid-template-columns: 1fr;
+            }
+
+            .internship-text h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Law Students Section Styles */
+        .law-students-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .law-students-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232563EB' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .law-students-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .law-students-text {
+            text-align: left;
+        }
+
+        .law-students-text h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .law-students-text p {
+            font-size: 1.125rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .law-students-features {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .law-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .law-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .law-feature i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            background: #EEF2FF;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .feature-content h3 {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-content p {
+            font-size: 1rem;
+            color: #4B5563;
+            margin-bottom: 0;
+        }
+
+        .law-students-image {
+            position: relative;
+        }
+
+        .law-students-image img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: var(--hover-shadow);
+        }
+
+        .law-students-image .guarantee-badge {
+            position: absolute;
+            top: -1rem;
+            right: -1rem;
+            background: #059669;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: var(--card-shadow);
+            transform: rotate(5deg);
+        }
+
+        @media (max-width: 768px) {
+            .law-students-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .law-students-text h2 {
+                font-size: 2rem;
+            }
+
+            .law-feature {
+                padding: 1rem;
+            }
+        }
+
+        /* How It Works Section Styles */
+        .how-it-works {
+            padding: 6rem 0;
+            background: white;
+            position: relative;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: #4B5563;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            margin: 4rem 0;
+            padding: 0 2rem;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin: 0 auto 1rem;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: #EEF2FF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step-icon i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .step:hover .step-icon {
+            transform: scale(1.1);
+            background: var(--primary-color);
+        }
+
+        .step:hover .step-icon i {
+            color: white;
+        }
+
+        .step h3 {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            font-size: 1rem;
+            color: #4B5563;
+            line-height: 1.6;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        .step-connector {
+            flex: 0 0 50px;
+            height: 2px;
+            background: var(--border-color);
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .step-connector::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .cta-container {
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 1024px) {
+            .steps-container {
+                flex-wrap: wrap;
+                gap: 3rem;
+            }
+
+            .step {
+                flex: 0 0 calc(50% - 1.5rem);
+            }
+
+            .step-connector {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .step {
+                flex: 0 0 100%;
+            }
+
+            .steps-container {
+                padding: 0;
+            }
+
+            .step p {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">CourseJoint</a>
+            <div class="nav-links">
+                <a href="law">Courses</a>
+                <a href="#about">About</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>CourseJoint – Learn, Upskill, Lead</h1>
+            <p>Welcome to CourseJoint, your gateway to world-class learning. Whether you're looking to break into tech, understand legal fundamentals, build your business acumen, market like a pro, or lead the future, we've got you covered.</p>
+            <a href="#courses" class="cta-button">Explore Courses</a>
+        </div>
+    </section>
+
+    <section class="featured-courses" id="courses">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🔥 Featured Courses</h2>
+                <a href="law" class="explore-button">
+                    Explore All Courses <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Tech</div>
+                        <h3 class="course-title">Introduction to Full-Stack Web Development</h3>
+                        <p>Master front-end and back-end technologies, build real-world applications, and deploy full-stack web solutions from scratch.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 45 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Law</div>
+                        <h3 class="course-title">Legal Essentials for Startups and Entrepreneurs</h3>
+                        <p>Learn contracts, IP rights, privacy laws, and compliance to navigate the legal landscape with confidence.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Business</div>
+                        <h3 class="course-title">Business Foundations: Strategy, Operations, and Leadership</h3>
+                        <p>Unlock essential business skills to run and grow a company in today's dynamic world.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 35 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Marketing</div>
+                        <h3 class="course-title">Digital Marketing Mastery</h3>
+                        <p>From SEO to paid ads, social media to email marketing, become a marketing powerhouse with practical strategies.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 25 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Economics & Global Markets</div>
+                        <h3 class="course-title">The Future of Work and the Global Market</h3>
+                        <p>Understand emerging trends, global shifts, and how to adapt and thrive in the digital economy.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="internship-section">
+        <div class="container">
+            <div class="internship-content">
+                <div class="internship-text">
+                    <h2>Guaranteed Internship After Course Completion</h2>
+                    <p>We don't just teach you the skills - we help you apply them in the real world. Every CourseJoint student gets a guaranteed internship opportunity with our partner companies.</p>
+                    
+                    <div class="internship-features">
+                        <div class="internship-feature">
+                            <i class="fas fa-building"></i>
+                            <span>Top Companies</span>
+                        </div>
+                        <div class="internship-feature">
+                            <i class="fas fa-clock"></i>
+                            <span>3-6 Months Duration</span>
+                        </div>
+                        <div class="internship-feature">
+                            <i class="fas fa-handshake"></i>
+                            <span>Stipend Available</span>
+                        </div>
+                        <div class="internship-feature">
+                            <i class="fas fa-file-contract"></i>
+                            <span>Job Opportunities</span>
+                        </div>
+                    </div>
+
+                    <a href="#courses" class="cta-button">Start Your Journey</a>
+                </div>
+                <div class="internship-image">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" alt="Students in a professional environment">
+                    <div class="guarantee-badge">
+                        <i class="fas fa-check-circle"></i> 100% Guaranteed
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="law-students-section">
+        <div class="container">
+            <div class="law-students-content">
+                <div class="law-students-text">
+                    <h2>Law Students: Your Path to Success Starts Here</h2>
+                    <p>Join CourseJoint's specialized law programs designed to give you the competitive edge in your legal career. Our comprehensive courses combine theoretical knowledge with practical experience.</p>
+                    
+                    <div class="law-students-features">
+                        <div class="law-feature">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div class="feature-content">
+                                <h3>Expert-Led Learning</h3>
+                                <p>Learn from practicing lawyers and legal experts with years of industry experience</p>
+                            </div>
+                        </div>
+                        <div class="law-feature">
+                            <i class="fas fa-handshake"></i>
+                            <div class="feature-content">
+                                <h3>100% Internship Guarantee</h3>
+                                <p>Get placed in top law firms and corporate legal departments</p>
+                            </div>
+                        </div>
+                        <div class="law-feature">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div class="feature-content">
+                                <h3>Money-Back Guarantee</h3>
+                                <p>Full refund if you don't secure an internship within 30 days of course completion</p>
+                            </div>
+                        </div>
+                        <div class="law-feature">
+                            <i class="fas fa-book"></i>
+                            <div class="feature-content">
+                                <h3>Practical Case Studies</h3>
+                                <p>Work on real legal cases and develop practical problem-solving skills</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="law" class="cta-button">Explore Law Courses</a>
+                </div>
+                <div class="law-students-image">
+                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Law students in a professional setting">
+                    <div class="guarantee-badge">
+                        <i class="fas fa-shield-alt"></i> 100% Satisfaction Guaranteed
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Learners Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"CourseJoint transformed my career. The practical approach and industry-relevant content helped me land my dream job."</p>
+                    <p><strong>- Sarah Johnson</strong><br>Software Engineer</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The quality of instruction and the flexibility of learning made it possible for me to balance work and education."</p>
+                    <p><strong>- Michael Chen</strong><br>Marketing Director</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The business course gave me the confidence and skills to start my own company. Highly recommended!"</p>
+                    <p><strong>- Emma Rodriguez</strong><br>Entrepreneur</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partners">
+        <div class="container">
+            <h2 class="section-title">Trusted by Industry Leaders</h2>
+            <div class="partner-logos">
+                <i class="fab fa-google fa-3x"></i>
+                <i class="fab fa-microsoft fa-3x"></i>
+                <i class="fab fa-amazon fa-3x"></i>
+                <i class="fab fa-apple fa-3x"></i>
+                <i class="fab fa-facebook fa-3x"></i>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Start your learning journey in just a few simple steps</p>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Select Your Course</h3>
+                    <p>Browse through our extensive catalog of courses and choose the one that best fits your career goals</p>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Purchase Course</h3>
+                    <p>Add your chosen course to cart and complete the secure payment process</p>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Enter Your Email</h3>
+                    <p>Provide your email address to receive course access and updates</p>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Payment Confirmation</h3>
+                    <p>Receive instant confirmation of your payment and course enrollment</p>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-icon">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <h3>Course Materials Delivered</h3>
+                    <p>Your course materials will be sent to your email within 24 hours of payment confirmation</p>
+                </div>
+            </div>
+
+            <div class="cta-container">
+                <a href="#courses" class="cta-button">Start Learning Now</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About CourseJoint</h3>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Stay Updated</h3>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Enter your email">
+                        <a href="#" class="cta-button">Subscribe</a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 CourseJoint. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

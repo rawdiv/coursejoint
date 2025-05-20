@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law Courses - CourseJoint</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --secondary-color: #3B82F6;
+            --accent-color: #60A5FA;
+            --text-color: #1F2937;
+            --light-gray: #F3F4F6;
+            --border-color: #E5E7EB;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #FAFAFA;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--card-shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: var(--card-shadow);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--light-gray);
+            color: var(--primary-color);
+        }
+
+        .dropdown-content a::after {
+            display: none;
+        }
+
+        /* Law Courses Header */
+        .law-header {
+            padding: 8rem 0 4rem;
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .law-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232563EB' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .law-header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .law-header p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        /* Course Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            height: 100%;
+        }
+
+        @media (max-width: 1200px) {
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .sale-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #EF4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .course-content {
+            padding: 2rem;
+        }
+
+        .course-category {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #EEF2FF;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .course-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .course-content p {
+            color: #4B5563;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-features {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #059669;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .feature-badge i {
+            color: #059669;
+        }
+
+        .pricing {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .original-price {
+            color: #6B7280;
+            text-decoration: line-through;
+            font-size: 1.125rem;
+        }
+
+        .sale-price {
+            color: #EF4444;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .buy-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: #1F2937;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            color: #F9FAFB;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: #D1D5DB;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #9CA3AF;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: white;
+                padding: 5rem 2rem 2rem;
+                flex-direction: column;
+                gap: 1.5rem;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                padding: 0.5rem 0 0 1rem;
+                display: none;
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 0.75rem 0;
+            }
+
+            .law-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">CourseJoint</a>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="law.html">Courses</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#testimonials">Testimonials</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="law-header">
+        <div class="container">
+            <h1>Law Courses</h1>
+            <p>Master legal concepts and practices with our comprehensive law courses. From business law to human rights, gain the knowledge and skills to navigate the legal landscape.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="courses-grid">
+            <!-- Course 1 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Legal Essentials for Startups and Entrepreneurs</h3>
+                    <p>Learn the core legal frameworks that govern startups—from choosing the right business structure to understanding IP, contracts, compliance, and investor agreements.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 2 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Contract Law Made Simple: From Basics to Drafting</h3>
+                    <p>Understand how contracts work, what makes them valid, and how to draft legally sound agreements. Explore real-world contracts and practice drafting.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 25 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 3 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Intellectual Property Rights: Protect Your Ideas</h3>
+                    <p>Understand copyrights, patents, trademarks, and trade secrets. Learn how to register your IP, enforce it, and avoid infringing others' rights.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 35 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 4 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Cyber Law & Data Privacy in the Digital Age</h3>
+                    <p>Explore legal issues around online activity, data collection, digital surveillance, and cybercrime. Learn about GDPR, India's IT Act, and global data privacy regulations.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 5 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Employment Law and Workplace Rights</h3>
+                    <p>Dive into labor law, workplace discrimination, employee rights, and employer obligations. Learn how to create compliant employment policies and resolve workplace conflicts.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 25 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 6 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Legal Compliance and Risk Management for Businesses</h3>
+                    <p>Learn how businesses ensure legal compliance with tax, labor, environmental, and corporate laws. Master risk identification and mitigation strategies.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 35 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 7 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Criminal Law Fundamentals: Theory and Practice</h3>
+                    <p>Learn the structure of criminal law, covering major offenses, defenses, criminal procedures, and the rights of the accused. Perfect for pre-law students.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 8 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Corporate and Securities Law: Navigating Companies and Markets</h3>
+                    <p>Understand the legal framework governing corporations, M&As, board structures, and capital markets. Essential for finance and business professionals.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 35 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 9 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">International Law and Human Rights</h3>
+                    <p>Study global treaties, UN bodies, and international courts. Explore landmark cases and understand how international law affects domestic policies.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 10 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Legal Research, Writing, and Courtroom Skills</h3>
+                    <p>Learn effective legal research, draft persuasive documents, and develop argumentation skills. Perfect for law students and aspirants.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 25 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 11 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Tech Law & AI Regulation: Legal Issues in Emerging Technologies</h3>
+                    <p>Explore the legal and ethical challenges of artificial intelligence, automation, blockchain, and digital surveillance. Understand regulatory frameworks around AI use, algorithmic bias, data rights, and compliance standards globally.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 35 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 12 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Financial and Banking Law</h3>
+                    <p>Understand the legal structure of the financial sector, including banking regulation, anti-money laundering (AML), fintech laws, digital payments, and cryptocurrency compliance. Ideal for finance professionals and legal advisors.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 13 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Real Estate and Property Law</h3>
+                    <p>Learn about land titles, lease agreements, property disputes, RERA compliance, and real estate transaction law in India and globally. Gain practical knowledge for legal consulting or real estate investing.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 14 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Legal Ethics and Professional Responsibility</h3>
+                    <p>A deep dive into the ethical duties of lawyers, judges, and legal practitioners. Understand conflicts of interest, confidentiality, and the professional code of conduct through real-life legal dilemmas.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 25 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 15 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">E-Commerce Law: Legal Framework for Online Businesses</h3>
+                    <p>Cover the laws around digital contracts, payment gateways, returns/refunds, consumer protection, liability, and terms of service for e-commerce platforms and digital service providers.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 16 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Environmental Law and Sustainable Policy</h3>
+                    <p>Study how environmental regulation shapes public policy and corporate responsibility. Learn about pollution control laws, green energy policy, climate litigation, and international treaties like the Paris Agreement.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 35 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 17 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Media and Entertainment Law</h3>
+                    <p>Learn how copyright, broadcasting rights, defamation, and digital licensing affect creators, influencers, media companies, and streaming platforms. Includes legal basics for film, music, gaming, and publishing sectors.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 18 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Family Law and Matrimonial Disputes</h3>
+                    <p>Understand laws related to marriage, divorce, alimony, child custody, and inheritance under Indian law (Hindu, Muslim, Christian laws) and global practices. Includes mediation and domestic violence laws.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 19 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">Consumer Protection and Product Liability Law</h3>
+                    <p>Dive into consumer rights, unfair trade practices, advertising laws, and product liability. Learn how to file claims, handle disputes, and understand the legal obligations of brands and sellers.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 25 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+
+            <!-- Course 20 -->
+            <div class="course-card">
+                <div class="sale-badge">70% OFF</div>
+                <div class="course-content">
+                    <div class="course-category">Law</div>
+                    <h3 class="course-title">International Trade Law and WTO Regulations</h3>
+                    <p>Explore the global legal framework governing international trade, tariffs, export-import laws, and dispute resolution under WTO. Learn how international trade impacts businesses and economies.</p>
+                    <div class="course-features">
+                        <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                        <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                        <span class="feature-badge"><i class="fas fa-clock"></i> 35 Days</span>
+                    </div>
+                    <div class="pricing">
+                        <span class="original-price">₹6,999</span>
+                        <span class="sale-price">₹1,999</span>
+                    </div>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About CourseJoint</h3>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 CourseJoint. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            // Toggle between bars and times icon
+            const icon = menuToggle.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Handle dropdowns on mobile
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('a');
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-links') && !e.target.closest('.menu-toggle')) {
+                navLinks.classList.remove('active');
+                dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+</body>
+</html> 

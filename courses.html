@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses - CourseJoint</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --secondary-color: #3B82F6;
+            --accent-color: #60A5FA;
+            --text-color: #1F2937;
+            --light-gray: #F3F4F6;
+            --border-color: #E5E7EB;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #FAFAFA;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--card-shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: var(--card-shadow);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--light-gray);
+            color: var(--primary-color);
+        }
+
+        .dropdown-content a::after {
+            display: none;
+        }
+
+        /* Courses Page Header */
+        .courses-header {
+            padding: 8rem 0 4rem;
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+            text-align: center;
+        }
+
+        .courses-header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .courses-header p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-color);
+        }
+
+        /* Course Filters */
+        .course-filters {
+            padding: 2rem 0;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filters-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: white;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Course Grid */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .sale-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #EF4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .course-content {
+            padding: 2rem;
+        }
+
+        .course-category {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #EEF2FF;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .course-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .course-content p {
+            color: #4B5563;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-features {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #059669;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .feature-badge i {
+            color: #059669;
+        }
+
+        .pricing {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .original-price {
+            color: #6B7280;
+            text-decoration: line-through;
+            font-size: 1.125rem;
+        }
+
+        .sale-price {
+            color: #EF4444;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .buy-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: #1F2937;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            color: #F9FAFB;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: #D1D5DB;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #9CA3AF;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .courses-header h1 {
+                font-size: 2rem;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">CourseJoint</a>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a href="courses.html">Courses</a>
+                    <div class="dropdown-content">
+                        <a href="courses.html?category=programming">Programming</a>
+                        <a href="courses.html?category=law">Law</a>
+                        <a href="courses.html?category=business">Business</a>
+                        <a href="courses.html?category=designing">Designing</a>
+                        <a href="courses.html?category=video-editing">Video Editing</a>
+                    </div>
+                </div>
+                <a href="index.html#about">About</a>
+                <a href="index.html#testimonials">Testimonials</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="courses-header">
+        <div class="container">
+            <h1>Explore All Courses</h1>
+            <p>Discover our comprehensive range of courses designed to help you achieve your career goals</p>
+        </div>
+    </section>
+
+    <section class="course-filters">
+        <div class="container">
+            <div class="filters-container">
+                <button class="filter-button active">All Courses</button>
+                <button class="filter-button">Technology</button>
+                <button class="filter-button">Business</button>
+                <button class="filter-button">Marketing</button>
+                <button class="filter-button">Law</button>
+                <button class="filter-button">Economics</button>
+                <button class="filter-button">25-30 Days</button>
+                <button class="filter-button">31-45 Days</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="courses-grid">
+        <div class="container">
+            <div class="courses-grid">
+                <!-- Featured Courses -->
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Tech</div>
+                        <h3 class="course-title">Introduction to Full-Stack Web Development</h3>
+                        <p>Master front-end and back-end technologies, build real-world applications, and deploy full-stack web solutions from scratch.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 45 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Additional Courses -->
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Tech</div>
+                        <h3 class="course-title">Python Programming Masterclass</h3>
+                        <p>Learn Python from basics to advanced concepts, including data science, automation, and web development.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Tech</div>
+                        <h3 class="course-title">Mobile App Development</h3>
+                        <p>Build native and cross-platform mobile applications using React Native and Flutter.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 35 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Business</div>
+                        <h3 class="course-title">Digital Business Strategy</h3>
+                        <p>Learn how to create and implement effective digital strategies for business growth.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 25 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Marketing</div>
+                        <h3 class="course-title">Social Media Marketing</h3>
+                        <p>Master social media platforms, content creation, and analytics for business growth.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 25 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="sale-badge">70% OFF</div>
+                    <div class="course-content">
+                        <div class="course-category">Law</div>
+                        <h3 class="course-title">Corporate Law Fundamentals</h3>
+                        <p>Understand corporate legal frameworks, compliance, and business regulations.</p>
+                        <div class="course-features">
+                            <span class="feature-badge"><i class="fas fa-certificate"></i> Certification</span>
+                            <span class="feature-badge"><i class="fas fa-briefcase"></i> Internship</span>
+                            <span class="feature-badge"><i class="fas fa-clock"></i> 30 Days</span>
+                        </div>
+                        <div class="pricing">
+                            <span class="original-price">₹6,999</span>
+                            <span class="sale-price">₹1,999</span>
+                        </div>
+                        <a href="#" class="buy-button">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About CourseJoint</h3>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 CourseJoint. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Function to filter courses by category
+        function filterCoursesByCategory(category) {
+            const courseCards = document.querySelectorAll('.course-card');
+            const filterButtons = document.querySelectorAll('.filter-button');
+            
+            // Update active filter button
+            filterButtons.forEach(button => {
+                if (button.textContent.toLowerCase() === category) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+
+            // Show/hide courses based on category
+            courseCards.forEach(card => {
+                const cardCategory = card.querySelector('.course-category').textContent.toLowerCase();
+                if (category === 'all' || cardCategory === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize page with category from URL
+        document.addEventListener('DOMContentLoaded', function() {
+            const category = getUrlParameter('category');
+            if (category) {
+                filterCoursesByCategory(category);
+            }
+
+            // Add click event listeners to filter buttons
+            const filterButtons = document.querySelectorAll('.filter-button');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.textContent.toLowerCase();
+                    filterCoursesByCategory(category);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
